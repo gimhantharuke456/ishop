@@ -17,8 +17,8 @@ class AuthView extends StatefulWidget {
 class _AuthViewState extends State<AuthView> {
   Future<void> _authenticateWithBiometrics(BuildContext context) async {
     try {
-      //  final isAuthenticated = await Authentication.authentication();
-      if (true) {
+      final isAuthenticated = await Authentication.authentication();
+      if (isAuthenticated) {
         await FirebaseAuth.instance.signInAnonymously();
         context.navigator(context, const HomeView(), shouldAuthenticate: false);
       } else {
