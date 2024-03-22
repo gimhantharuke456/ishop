@@ -142,6 +142,14 @@ class _HomeViewState extends State<HomeView> {
         title: const Text('I Shop'),
         automaticallyImplyLeading: false,
         backgroundColor: Colors.grey,
+        actions: [
+          IconButton(
+              onPressed: () {
+                context.navigator(context, CartView(),
+                    shouldAuthenticate: false);
+              },
+              icon: const Icon(Icons.shopping_cart))
+        ],
       ),
       body: GestureDetector(
         onLongPress: _startListening,

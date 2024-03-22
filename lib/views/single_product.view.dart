@@ -1,5 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:ishop/controllers/cart.controller.dart';
 import 'package:ishop/controllers/voice.controller.dart';
+import 'package:ishop/models/cart.item.model.dart';
 import 'package:ishop/models/product.model.dart';
 
 class SingleProductView extends StatefulWidget {
@@ -40,30 +43,45 @@ class _SingleProductViewState extends State<SingleProductView> {
           }
         },
         child: SafeArea(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(16.0),
-            child: SizedBox(
-              height: MediaQuery.of(context).size.height,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 20.0),
-                  Text(
-                    widget.product.name,
-                    style: Theme.of(context).textTheme.headline5,
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 20.0),
+                Text(
+                  widget.product.name,
+                  style: Theme.of(context).textTheme.headline5,
+                ),
+                const SizedBox(height: 10.0),
+                Text(
+                  'Price: ${widget.product.price}',
+                  style: const TextStyle(color: Colors.green),
+                ),
+                const SizedBox(height: 20.0),
+                Text(
+                  widget.product.description,
+                  style: Theme.of(context).textTheme.labelLarge,
+                ),
+                const Spacer(),
+                InkWell(
+                  onTap: () async {
+                    final _cartController = CartController();
+                    CartItem cartItem = CartItem(
+                        productName: widget.product.name,
+                        price: widget.product.price,
+                        quantity: 1,
+                        uid: FirebaseAuth.instance.currentUser?.uid ?? '');
+                    await _cartController.addItemToCart(cartItem);
+                    voiceController.speek(message: "Item added to cart");
+                  },
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 300,
+                    color: Colors.grey,
                   ),
-                  const SizedBox(height: 10.0),
-                  Text(
-                    'Price: ${widget.product.price}',
-                    style: const TextStyle(color: Colors.green),
-                  ),
-                  const SizedBox(height: 20.0),
-                  Text(
-                    widget.product.description,
-                    style: Theme.of(context).textTheme.labelLarge,
-                  ),
-                ],
-              ),
+                )
+              ],
             ),
           ),
         ),

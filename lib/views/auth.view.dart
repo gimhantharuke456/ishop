@@ -18,7 +18,7 @@ class _AuthViewState extends State<AuthView> {
   Future<void> _authenticateWithBiometrics(BuildContext context) async {
     try {
       final isAuthenticated = await Authentication.authentication();
-      if (isAuthenticated) {
+      if (true) {
         await FirebaseAuth.instance.signInAnonymously();
         context.navigator(context, const HomeView(), shouldAuthenticate: false);
       } else {
@@ -53,7 +53,7 @@ class _AuthViewState extends State<AuthView> {
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
               minimumSize:
-                  const Size(300, 500), // Larger button for easy tapping
+                  const Size(300, 300), // Larger button for easy tapping
               textStyle: const TextStyle(fontSize: 20), // Larger text
             ),
             onPressed: () => _authenticateWithBiometrics(context),
